@@ -1,5 +1,5 @@
 ---
-title: "What the package does"
+title: "Multidimensional Statistical Analysis"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{What the package does}
@@ -24,11 +24,11 @@ library(MATH5773Project1)
 The analysis and visualization of categorical data are essential tasks in many fields, from the social sciences to business analytics. A set of R functions has been developed to perform in-depth analyses, create informative visualizations, and perform Fisher's exact tests on one-way and two-way tables. This statistical function will allow us to discover patterns, associations, and significant differences in the data.
 In this package, there are three distinct functions, each tailored to specific types of categorical data analysis:
 
-## One-Way Table Analysis ("one_way_table_analysis"):
+## 1. One-Way Table Analysis ("one_way_table_analysis"):
 This function is designed for the analysis of one-way tables, where data is needed to organize into rows or columns representing categories or responses to a single variable. This function will calculate cell proportions, confidence intervals, Cell Proportion Differences,Confidence Intervals Differences, chi-squared goodness-of-fit test results, and summary. Additionally, it generates a bar chart to visualize the data distribution, providing a comprehensive overview of the data set.
 
 ### Parameters and Outputs:
-The main parameter of this function are a matrix representing the one-way table. and the significance level for confidence intervals. The output of the function is useful for conducting a comprehensive analysis of one-way tables, including calculating cell proportions, confidence intervals, chi-squared tests, and providing visualizations like bar charts to facilitate data interpretation and decision-making.
+The main parameter of this function are a matrix representing the one-way table. and the significance level for confidence intervals. The output of the function is useful for conducting a comprehensive analysis of one-way tables, including calculating cell proportions, confidence intervals, chi-squared tests, and providing visualizations like bar, pie charts (data distribution and chi squared test data distribution) to facilitate data interpretation and decision-making.
 
 ### Example 9.12 
 
@@ -41,7 +41,7 @@ H_a =  \text{The opinions of users are not evenly divided among the categories a
 \]
  
 #### b. Conduct the test of part a using alpha=0.05.
-```{r}
+```{r, fig.width=8, fig.height=5}
 data <- matrix(c(59, 108, 82, 79), nrow = 1)
 rownames(data) <- c("Frequency")
 colnames(data) <- c("Agree Strongly", "Agree Somewhat", "Disagree Somewhat", "Disagree strongly")
@@ -62,7 +62,7 @@ In summary, the "one_way_table_analysis" function is providing insights into cat
 
 
 
-## Two-Way Table Analysis ("two_way_table"):
+## 2. Two-Way Table Analysis ("two_way_table"):
 The function "two_way_table" is designed for conducting a two-way table analysis on categorical data. It takes as input a matrix representing a two-way contingency table, where rows typically represent one categorical variable, columns represent another categorical variable, and the cell values represent the counts or frequencies of observations falling into the combinations of categories. To make the contingency table, we also have to add "addmargins" function to sum the row, column and all to create a appropriate table for to run the "two_way_table" function. This function is useful for exploring relationships between categorical variables and determining whether they are statistically dependent or independent.
 
 ### Parameters and Outputs:
@@ -93,7 +93,7 @@ H_a =  \text{The injury rate for collision claims depends on Accord model.}
 \]
 
 #### d. Find the expected number of claims in each cell of the contingency table, assuming that is true
-```{r}
+```{r, fig.width=8, fig.height=5}
 two_way_table(data, alpha = 0.05)
 ```
 
@@ -113,7 +113,7 @@ This "two_way_table" function is performing expected cell counts, chi-squared te
 
 
 
-## Fisher's Exact Test Analysis ("fisher_test_with_probability"):
+## 3. Fisher's Exact Test Analysis ("fisher_test_with_probability"):
 
 The Fisher's Exact Test Analysis function is designed to perform Fisher's exact test on a contingency table and calculate the hypergeometric probability associated with the observed table. This function is particularly useful to determine if there is a significant association between the categories.
 

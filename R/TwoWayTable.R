@@ -87,8 +87,8 @@ two_way_table <- function(data, alpha = 0.05) {
 
 
 
-  bar_chart = barplot(data[-nrow(data), -ncol(data)], legend = TRUE,col=rainbow(4), beside = TRUE)
-  mosaic = mosaicplot(data[-nrow(data), -ncol(data)],col=rainbow(2))
+  bar_chart = barplot(data[-nrow(data), -ncol(data)], legend = TRUE,col=rainbow(2), beside = TRUE,main = "Bar plot of the data")
+  mosaic = mosaicplot(data[-nrow(data), -ncol(data)],col=rainbow(4),main = "Mosaic Plot of the data")
   # Store the results in a list
   results <- list(
     "ContingencyTable" = contingency_table,

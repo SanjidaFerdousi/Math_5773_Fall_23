@@ -19,6 +19,8 @@ A list containing:
   \item{ConfidenceIntervalsDifferences}{A matrix of confidence intervals for differences between cell proportions.}
   \item{ChiSquaredTest}{Results of the chi-squared goodness-of-fit test.}
   \item{BarChart}{A bar chart representing the data distribution.}
+  \item{bar_chart_chq}{A bar chart representing the chi squared test observe and expected data.}
+  \item{pie_chart}{A pie chart representing the data distribution of each category.}
   \item{Summary}{Summary statistics of the one-way table.}
 }
 \description{
