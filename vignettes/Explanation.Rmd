@@ -1,0 +1,152 @@
+---
+title: "What the package does"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{What the package does}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MATH5773Project1)
+```
+
+
+# Introduction
+
+The analysis and visualization of categorical data are essential tasks in many fields, from the social sciences to business analytics. A set of R functions has been developed to perform in-depth analyses, create informative visualizations, and perform Fisher's exact tests on one-way and two-way tables. This statistical function will allow us to discover patterns, associations, and significant differences in the data.
+In this package, there are three distinct functions, each tailored to specific types of categorical data analysis:
+
+## One-Way Table Analysis ("one_way_table_analysis"):
+This function is designed for the analysis of one-way tables, where data is needed to organize into rows or columns representing categories or responses to a single variable. This function will calculate cell proportions, confidence intervals, Cell Proportion Differences,Confidence Intervals Differences, chi-squared goodness-of-fit test results, and summary. Additionally, it generates a bar chart to visualize the data distribution, providing a comprehensive overview of the data set.
+
+### Parameters and Outputs:
+The main parameter of this function are a matrix representing the one-way table. and the significance level for confidence intervals. The output of the function is useful for conducting a comprehensive analysis of one-way tables, including calculating cell proportions, confidence intervals, chi-squared tests, and providing visualizations like bar charts to facilitate data interpretation and decision-making.
+
+### Example 9.12 
+
+#### a. Specify the null and alternative hypotheses you would use to determine if the opinions of Internet users are evenly divided among the four categories.
+\[
+H_0 =  \text{The opinions of users are evenly divided among the categories.}
+\]
+\[
+H_a =  \text{The opinions of users are not evenly divided among the categories at least one of the proportions is different.}
+\]
+ 
+#### b. Conduct the test of part a using alpha=0.05.
+```{r}
+data <- matrix(c(59, 108, 82, 79), nrow = 1)
+rownames(data) <- c("Frequency")
+colnames(data) <- c("Agree Strongly", "Agree Somewhat", "Disagree Somewhat", "Disagree strongly")
+data <- t(data)
+one_way_table_analysis(data, alpha = 0.05)
+```
+
+From chi square test, the P-values are 0.001991 which is lower than the than 0.05. So we can rejected the null hypothesis ($H_0$). There is a statistically significant association between the categories in the one-way table which means the opinions of Internet users are not evenly divided among the four categories.
+
+#### c. In the context of this problem, what is a Type I error? A Type II error?
+In these analysis, a Type I error (False Positive) imply that there is a significant difference in opinions when there isn't, while a Type II error (False Negative) mean failing to detect a significant difference when it exists.
+
+#### d. What assumptions must hold in order to ensure the validity of the test, part b?
+The data used in calculating a chi-square statistic must be random, raw, mutually exclusive, drawn from independent variables, and drawn from a large enough sample.The validity of the chi-squared test in part b depends on meeting the assumptions mentioned.
+
+In summary, the "one_way_table_analysis" function is providing insights into categorical data, and conducting hypothesis tests to detect associations or differences among categories. The example application demonstrated how to use the function in practice, including the interpretation of test results and understanding potential errors and assumptions associated with the analysis.
+
+
+
+
+## Two-Way Table Analysis ("two_way_table"):
+The function "two_way_table" is designed for conducting a two-way table analysis on categorical data. It takes as input a matrix representing a two-way contingency table, where rows typically represent one categorical variable, columns represent another categorical variable, and the cell values represent the counts or frequencies of observations falling into the combinations of categories. To make the contingency table, we also have to add "addmargins" function to sum the row, column and all to create a appropriate table for to run the "two_way_table" function. This function is useful for exploring relationships between categorical variables and determining whether they are statistically dependent or independent.
+
+### Parameters and Outputs:
+The main parameter of this function are two-way contingency table and the significance level for confidence intervals. The output of the function expected cell counts, test statistic, p value, critical value, reject regions, performs the chi-squared test for association, and generates visualizations such as bar charts and mosaic plots. A conclusion based on the chi-squared test results, indicating whether there is a significant association between the variables.
+
+### Examples 9.30:
+
+#### a. Identify the two qualitative variables measured for each Honda Accord collision claim.
+Accord Model Type: conventional and hybrid Accords.
+Injury Outcome: injuries and no injuries.
+
+#### b. Form a contingency table for this data.
+```{r}
+dt <- matrix(c(50132 - 5364,1505 - 137, 5364,137), nrow = 2)
+rownames(dt) <- c("Conventional", "Hybrid")
+colnames(dt) <- c("No Injuries", "Injuries")
+dt
+data <- addmargins(dt)
+```
+
+#### c. Give H0 and Ha for testing whether injury rate for collision claims depends on Accord model (hybrid or conventional)
+
+\[
+H_0 =  \text{The injury rate for collision claims does not depend on Accord model.}
+\]
+\[
+H_a =  \text{The injury rate for collision claims depends on Accord model.}
+\]
+
+#### d. Find the expected number of claims in each cell of the contingency table, assuming that is true
+```{r}
+two_way_table(data, alpha = 0.05)
+```
+
+#### e. Compute the test statistic and compare your answer to the test statistic
+The test statistics are 3.913917. They match perfectly with book answer.
+
+#### f. Find the rejection region for the test 
+In a chi-squared test for independence, the rejection region typically consists of values of the test statistic greater than a critical value from the chi-squared distribution. This critical value is used to define the rejection region. In this case, the rejection region would be values of the test statistic greater than 9.488.
+
+#### g. Make the appropriate conclusion using both the rejection region method and the p-value
+Since the test statistic (3.914) is less than the critical value (9.488) and the p-value (0.418) is greater than the significance level (0.05), you would fail to reject the null hypothesis. This indicates that there is no significant association between the variables being analyzed.
+
+#### h. Find a 95% confidence interval for the difference between the injury rates of conventional and hybrid Honda Accords. (See Section 8.10.) Use the interval to determine whether the injury rate for hybrid Accords is less than the injury rate for conventional Accords
+The confidence interval are calculated in the function. Both confidence intervals span negative values, indicating that there is a reasonable degree of confidence that the injury rate for hybrid Accords is lower than that for conventional Accords for both "No Injuries" and "Injuries" categories. From the confidence interval, the injury rate for hybrid Accords is likely to be less than the injury rate for conventional Accords, as the intervals do not include zero and are entirely below zero.
+
+This "two_way_table" function is performing expected cell counts, chi-squared test, critical value and confidence interval difference. From all the analysis, there is no significant association between the variables and the injury rate for hybrid Accords is likely to be less than the injury rate for conventional Accords.  
+
+
+
+## Fisher's Exact Test Analysis ("fisher_test_with_probability"):
+
+The Fisher's Exact Test Analysis function is designed to perform Fisher's exact test on a contingency table and calculate the hypergeometric probability associated with the observed table. This function is particularly useful to determine if there is a significant association between the categories.
+
+### Parameter and Output
+The main parameter of this function are observed_table. The user will need to create a contingency table of observed counts, where rows will represent categories, and columns will represent levels of outcomes. Moreover, after providing the contingency table it will return 
+the results of Fisher's exact test, including p-value and alternative hypothesis and the hypergeometric probability of the observed table.
+
+
+### Examples 9.37:
+The function includes examples to demonstrate its usage. For instance, you can input an observed contingency table like the following:
+
+#### Explain why Fisher’s exact test for independence can (and should) be applied to this contingency table.
+Fisher's exact test is applied to this contingency table because it is well-suited for small sample sizes, low expected cell frequencies, and situations where you want to assess the association between two categorical variables, to answer the choice of adhesive is associated with ARI scores in this dental bonding study.As the sample size are small, the chi-squared test will not be reliable.
+
+To analysis the contingency table, we tested-
+\[
+H_0 =  \text{The choice of adhesive type and the distribution of ARI score are independent.}
+\]
+\[
+H_a =  \text{The choice of adhesive type and the distribution of ARI score are dependent.}
+\]
+
+#### b. The contingency table analysis
+
+```{r}
+observed_table <- matrix(c(2,1,8,5,0,3,0,1,0,0), nrow = 2)
+rownames(observed_table) <- c("Smartbond", "Composite")
+colnames(observed_table) <- c("1", "2", "3", "4", "5")
+fisher_test_with_probability(observed_table)
+```
+
+From the output, the p-value is p = 0.2616 which is more than 0.05. So we can not rejected the null hypothesis ($H_0$). There is insufficient evidence to indicate that the distributions of ARI scores differ for the two types of bonding adhesives at $\alpha$ = 0.05.
+
+
+This "fisher_test_with_probability" function is performing Fisher's exact test and also calculating the probability of the observed table. There is a very small probability (0.0001754932) which is suggesting the observed distribution of ARI scores with "Smartbond" is unlikely to occur, assuming no association between adhesive type and ARI scores.
+

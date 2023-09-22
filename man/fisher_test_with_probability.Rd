@@ -18,7 +18,7 @@ A list containing:
 Fisher's Exact Test Analysis
 }
 \examples{
-observed_table <- matrix(c(2, 8, 0, 0, 0, 1, 5, 3, 1, 0), nrow = 2)
+observed_table <- matrix(c(2, 1, 8, 5, 0, 3, 0, 1, 0, 0), nrow = 2)
 rownames(observed_table) <- c("Smartbond", "Composite")
 colnames(observed_table) <- c("1", "2", "3", "4", "5")
 fisher_test_with_probability(observed_table)

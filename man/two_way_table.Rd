@@ -21,6 +21,7 @@ A list containing:
   \item{PValue}{The p-value for chi-squared test.}
   \item{RejectRegion}{The rejection region for chi-squared test.}
   \item{Conclusion}{The conclusion based on chi-squared test.}
+  \item{ConfidenceIntervals}{A matrix containing confidence intervals for each cell in the contingency table..}
   \item{Bar chart}{A bar chart representing the data distribution.}
   \item{Mosaicplot}{A Mosaicplot visualize the frequencies in a two way table.}
 }
@@ -28,11 +29,11 @@ A list containing:
 Two-Way Table Analysis
 }
 \examples{
-conventional_accords <- c(50132 - 5364, 5364)
-hybrid_accords <- c(1505 - 137, 137)
-data <- matrix(c(conventional_accords, hybrid_accords), nrow = 2)
-rownames(data) <- c("Conventional", "Hybrid")
-colnames(data) <- c("No Injuries", "Injuries")
+
+dt <- matrix(c(50132 - 5364,1505 - 137, 5364,137), nrow = 2)
+rownames(dt) <- c("Conventional", "Hybrid")
+colnames(dt) <- c("No Injuries", "Injuries")
+data <- addmargins(dt)
 two_way_table(data, alpha = 0.05)
 
 }

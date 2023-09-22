@@ -34,11 +34,12 @@ one_way_table_analysis <- function(data, alpha = 0.05) {
 
   # Initialize cis data frame with empty rows
   cis <- data.frame(Row = character(), Col = character(), Lower = numeric(), Upper = numeric(), stringsAsFactors = FALSE)
-
+  cell_proportions <- matrix(NA, n_rows, n_cols)
   for (i in 1:n_rows) {
     for (j in 1:n_cols) {
       # Cell proportion
       p <- data[i, j] / n_total
+      cell_proportions[i, j] <- p
       se <- sqrt(p * (1 - p) / n_total)
       z <- qnorm(1 - alpha / 2)
       lower <- p - z * se
@@ -50,7 +51,7 @@ one_way_table_analysis <- function(data, alpha = 0.05) {
 
   # Confidence interval for differences
   cis_diff <- data.frame(Row1 = character(), Row2 = character(), Lower = numeric(), Upper = numeric(), stringsAsFactors = FALSE)
-
+  cell_proportion_diffs <- matrix(NA, n_rows, n_rows)
   for (i in 1:(n_rows - 1)) {
     for (j in (i + 1):n_rows) {
       # Cell proportions for the two rows
@@ -64,6 +65,7 @@ one_way_table_analysis <- function(data, alpha = 0.05) {
       upper_diff <- (p_i - p_j) + z * se_diff
       # Create a new row in the cis_diff data frame
       cis_diff <- rbind(cis_diff, c(rownames(data)[i], rownames(data)[j], lower_diff, upper_diff))
+      cell_proportion_diffs[i, j] <- p_i - p_j
     }
   }
 
@@ -80,9 +82,9 @@ one_way_table_analysis <- function(data, alpha = 0.05) {
 
   # Create a list with results
   results <- list(
-    CellProportions = data,
+    CellProportions = cell_proportions,
     ConfidenceIntervals = cis,
-    CellProportionDifferences = cis_diff,
+    CellProportionDifferences = cell_proportion_diffs,
     ConfidenceIntervalsDifferences = cis_diff,
     ChiSquaredTest = chi_squared_test,
     BarChart = bar_chart,
